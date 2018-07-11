@@ -1,0 +1,57 @@
+# Every user have a project and info
+type User {
+  id: ID! @unique
+  name: String!
+  uni: String!
+  email: String! @unique
+  city:String!
+  admin: Boolean!
+  password: String!
+  project: Project!
+  updatedAt: DateTime!
+}
+
+# Every message have a sender and receiver
+type Message {
+  id: ID! @unique
+  sender: User! @relation(name: "Sender")
+  receiver: User! @relation(name: "Rec")
+  body: String!
+  send:Boolean!
+  createdAt: DateTime!
+}
+
+# the information about the user
+type Info {
+  id: ID! @unique
+  device: String!
+  browser: String!
+  os: String!
+  ip: String!
+  userAgent: String!
+  createdAt: DateTime!
+  user: User!
+}
+
+# Every project must be owned by a user
+type Project {
+  id: ID! @unique
+  name: String!
+  description: String!
+  lang: String!
+  state: String!
+  owner: User! @unique
+  createdAt: DateTime!
+}
+
+# Collecting an information about our vistors
+type Vistor {
+  id: ID! @unique
+  device: String!
+  browser: String!
+  os: String!
+  ip: String!
+  city: String!
+  userAgent: String!
+  createdAt: DateTime!
+}

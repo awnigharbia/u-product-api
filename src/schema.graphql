@@ -1,0 +1,82 @@
+# import User, UserOrderByInput from "./generated/prisma.graphql"
+# import Info, InfoOrderByInput from "./generated/prisma.graphql"
+# import Project, ProjectOrderByInput from "./generated/prisma.graphql"
+# import Message, MessageSubscriptionPayload, MessageOrderByInput from "./generated/prisma.graphql"
+# import Vistor, VistorOrderByInput from "./generated/prisma.graphql"
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  city:String
+  uni: String!
+  admin: Boolean!
+  info: [Info!]!
+  project: Project!
+  updatedAt: DateTime!
+}
+
+input inputProject {
+  name: String!,
+  description: String!,
+  state:String!,
+  lang:String!,
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type Query {
+  currentUser: [User!]!
+  users: [User!]!
+  user(filter: String, first: Int, skip:Int, orderBy: UserOrderByInput): [User!]!
+  projects: [Project!]!
+  project(filter: String, first: Int, skip:Int, orderBy: ProjectOrderByInput): [Project!]!
+  messages: [Message!]!
+  msg(filter:String,first: Int, skip:Int, orderBy: MessageOrderByInput ): [Message!]!
+  infoes: [Info!]!
+  info(filter: String, first: Int, skip:Int, orderBy: InfoOrderByInput): [Info!]!
+  vistors: [Vistor!]!
+  vistor(filter: String, first: Int, skip:Int, orderBy: VistorOrderByInput): [Vistor!]!
+}
+
+type Mutation {
+  newProject(
+    name: String!
+    lang: String!
+    description: String!
+    state: String!
+  ): Project!
+  signup(
+    name: String!
+    uni: String!
+    city:String!
+    admin: Boolean!
+    email: String!
+    password: String!
+    project:inputProject!
+  ): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+  newInfo(
+    ip: String!
+    os: String!
+    userAgent: String!
+    browser: String!
+    device: String!
+  ): Info!
+  newMsg(body: String!, send:Boolean!, email:String): Message!
+  newVistor(
+    browser: String!
+    os: String!
+    ip: String!
+    userAgent: String!
+    device: String
+    city: String!
+  ): Vistor!
+}
+
+type Subscription {
+  newMsg(filter:String): MessageSubscriptionPayload
+}
